@@ -17,3 +17,19 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
+.main {
+  justify-content: center;
+  /* opacity: 0;
+  display: none; */
+  transition: opacity 2s ease-in;
+}
+
+.btn {
+  display: inline-block;
+  background: linear-gradient(#1d125e, #48268b);
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-top: 15px;
+}
