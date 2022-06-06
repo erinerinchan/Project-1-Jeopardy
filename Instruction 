@@ -1,0 +1,10 @@
+Requirements:
+
+- Work individually
+- Render a game in the browser
+- Use Git and Github (commit frequently, work with branches, use Pull Requests)
+- Include separate HTML / CSS / JavaScript files
+- Use jQuery for DOM manipulation
+- Write clean code (proper indentation, comments explaining the code, spliting large code to functions...etc)
+- Deploy your game online using Github Pages, where the rest of the world can access it
+- Include a README.md with explanations of game instructions, unsolved problems...etc.
