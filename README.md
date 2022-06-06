@@ -1,1 +1,1 @@
-# Project-1-Jeopardy-
+# Project-1-Jeopardy
