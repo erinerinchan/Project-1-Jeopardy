@@ -5,8 +5,8 @@
 }
 
 .circle {
-  display: inline-block; 
-  background-color: #1d125e;
+  display: inline-block;
+  background-color: #6e2090;
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -16,7 +16,7 @@
 }
 
 .circle:nth-child(2) {
-  background-color: #48268b;
+  background-color: #dc14dc;
   animation-delay: 0.75;
 }
 

@@ -10,26 +10,45 @@ body {
   font-family: 'Asap Condensed', sans-serif;
   font-size: 18px;
   line-height: 1.6;
-  background-color: black;
+  background-image: linear-gradient(#dc14dc, #eb5aba, #f7e2de, #f17acd, #d53fa1, #992592, #6e2090);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   min-height: 100vh;
+
 }
 
 .main {
   justify-content: center;
-  /* opacity: 0;
-  display: none; */
-  transition: opacity 2s ease-in;
+  width: 90%;
+  opacity: 0;
+  display: none;
+  transition: opacity 1s ease-in;
+}
+
+.main > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn {
   display: inline-block;
   background: linear-gradient(#1d125e, #48268b);
   color: white;
+  text-decoration: none;
+  border: none;
   border-radius: 5px;
-  padding: 10px 20px;
-  margin-top: 15px;
+  padding: 10px 30px;
+  margin-top: 30px;
+  margin-left: 43%;
+  font-size: 35px;
+  cursor: pointer;
+  transition: .3s linear;
+}
+
+.btn:hover {
+  transform: rotateY(15deg);
+  box-shadow: 0px 15px 15px rgb(42, 2, 69);
 }
