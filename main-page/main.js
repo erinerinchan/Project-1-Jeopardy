@@ -1,3 +1,20 @@
+//Loading section
+const loading = document.getElementById('loading');
+const main = document.getElementById('main');
+
+function fadeIn() {
+  setTimeout(() => {
+    loading.style.opacity = 0;
+    loading.style.display = 'none';
+
+    main.style.display = 'block';
+    setTimeout(() => (main.style.opacity = 1), 50);
+  }, 4000);
+}
+
+fadeIn();
+
+// Main page
 const GENRES = [
   {
     displayName: 'Common Sense',
@@ -120,18 +137,17 @@ const GENRES = [
     id: 32
   },
 ];
-// const LEVELS = ["easy", "medium", "hard"];
-const LEVELS = ["base", "beginner", "intermediate", "advanced", "expert"];
+const LEVELS = ["easy", "medium", "hard"];
 const game = document.getElementById("game");
 const scoreDisplay = document.getElementById("score");
-const questionBox = document.getElementById("modal");
+const modal = document.getElementById("modal");
 
 let qa = {};
 let pickedGenres = [];
 
 function handleFlipCard(e) {
   const category = this.getAttribute('data-category');
-  const level = this.getAttribute('data-level');
+  const level = this.innerHTML;
   const data = qa[category][level];
   const answers = [data.correct_answer, ...data.incorrect_answers];
 
@@ -148,13 +164,14 @@ function handleFlipCard(e) {
   buttonC.innerHTML = answers[2];
   buttonD.innerHTML = answers[3];
 
-  questionBox.innerHTML = '';
-  questionBox.append(textDisplay);
-  questionBox.append(buttonA);
-  questionBox.append(buttonB);
-  questionBox.append(buttonC);
-  questionBox.append(buttonD);
-  questionBox.removeAttribute('style');
+//   // Modals
+//   modal.innerHTML = '';
+//   modal.append(textDisplay);
+//   modal.append(buttonA);
+//   modal.append(buttonB);
+//   modal.append(buttonC);
+//   modal.append(buttonD);
+//   modal.removeAttribute('style');
 }
 
 function generateCards() {
@@ -164,28 +181,14 @@ function generateCards() {
     column.innerHTML = genre.displayName;
     game.append(column);
 
-
-    LEVELS.forEach((level) => {
+    for (let i = 0; i < 5; i++) {
       const card = document.createElement("div");
       card.classList.add("card");
       card.setAttribute('data-category', genre.category);
-      card.setAttribute('data-level', level);
       card.addEventListener('click', handleFlipCard);
-
-      if (level === "base") {
-        card.innerHTML = 200;
-      } else if (level === "beginner") {
-        card.innerHTML = 400;
-      } else if (level === "intermediate") {
-        card.innerHTML = 600;
-      } else if (level === "advanced") {
-        card.innerHTML = 800;
-      } else {
-        card.innerHTML = 1000;
-      }
-
-      column.append(card);
-    })
+      card.innerHTML = 200 * (i + 1)
+      column.append(card)
+    }
   })
 }
 
@@ -194,7 +197,7 @@ function getQuestions() {
 
   pickedGenres.forEach((genre) => {
     LEVELS.forEach((level) => {
-      const link = `https://opentdb.com/api.php?amount=1&category=${genre.id}&difficulty=${level}&type=multiple`;
+      const link = `https://opentdb.com/api.php?amount=2&category=${genre.id}&difficulty=${level}&type=multiple`;
       const req = fetch(link).then((resp) => resp.json());
       requests.push(req);
     })
@@ -203,16 +206,22 @@ function getQuestions() {
   Promise.all(requests).then((responses) => {
     responses.forEach((resp) => {
       const genre = resp.results[0].category;
-      const level = resp.results[0].difficulty;
+      const difficulty = resp.results[0].difficulty;
+      const levelIndex = LEVELS.indexOf(difficulty)
+      const level = ((levelIndex * 2) + 1) * 200
 
       if (qa[genre]) {
         qa[genre][level] = resp.results[0];
+        qa[genre][level + 200] = resp.results[1];
       } else {
         qa[genre] = {
           [level]: resp.results[0],
+          [level + 200]: resp.results[1]
         }
       }
     })
+
+    console.log(qa)
 
     // Use the qa variable to generate the cards
     generateCards();

@@ -8,23 +8,34 @@
   <link rel="stylesheet" href="main-page/main.css">
 </head>
 <body>
+
+  <!-- Loading section -->
+  <div id="loading">
+    <img src="image/logo.png" class="logo" alt="logo" height="70" width="350">
+    <img src="image/host.png" class="host" alt="host" height="350" width="117">
+    <p>QUESTIONS ARE ON YOUR WAY...</p>
+  </div>
+
+  <!-- Main -->
+  <div id="main">
+
     <!-- Top section -->
-    <header class="top-header">
-      <img src="image/logo.png" class="logo" alt="logo" height="60" width="240">
-      <img src="image/host.png" class="host" alt="host" height="300" width="100">
-    </header>
-
-    <!-- Loading section -->
-    <div id="loading">Questions are on your way...</div>
-
-    <!-- Score board-->
-    <div id="game" style="display: none;">
-      <h3>Score:<span id="score">0</span></h3>
+    <div id="top-header">
+      <header>
+        <img src="image/logo.png" class="logo" alt="logo" height="45"   width="200">
+        <img src="image/host.png" class="host" alt="host" height="200"  width="66">
+      </header>
+      <p id ="score">SCORE:<span>&nbsp;&nbsp;0</span></p>
     </div>
 
-    <!-- Modal -->
-    <!-- <div id="modal" style="display: none;"></div> -->
+    <!-- Container for the question boxes-->
+    <div id="game"></div>
 
-    <script src="main-page/main.js"></script>
+  </div>
+
+  <!-- Modal -->
+  <!-- <div id="modal" style="display: none;"></div> -->
+
+  <script src="main-page/main.js"></script>
 </body>
 </html>

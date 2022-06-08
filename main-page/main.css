@@ -4,7 +4,7 @@ body {
   background: linear-gradient(#dc14dc, #eb5aba, #f7e2de, #f17acd, #d53fa1, #992592, #6e2090);
   min-height: 100vh;
   font-family: 'Asap Condensed', sans-serif;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: bold;
   color: black;
   display: flex;
@@ -13,29 +13,47 @@ body {
   flex-direction: column;
 }
 
-.logo, .host {
-  display: block;
-  margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
+#loading {
+  text-align: center;
+  font-size: 30px;
+  color: rgb(225, 215, 215);
+  -webkit-text-stroke: 1px black;
 }
 
-#loading {
-  font-size: 25px;
+#main {
+  opacity: 0;
+  display: none;
+  transition: opacity 0.3s ease-in;
+}
+
+.logo, .host {
+  display: block;
+  margin-top: 7px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+#score {
+  text-align: center;
+  text-shadow: 1px 1px 3px purple;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-size: 33px;
   color: rgb(225, 215, 215);
-  -webkit-text-stroke: 0.5px black;
+  -webkit-text-stroke: 1px black;
 }
 
 #game {
   display: flex;
 }
 
-#modal {
+/* #modal {
   position: fixed;
   width: 400px;
   height: 400px;
   background-color: red;
-}
+} */
 
 .genre-column {
   display: flex;
@@ -45,13 +63,13 @@ body {
 
 .card {
   display: center;
-  width: 170px;
-  height: 90px;
+  width: 155px;
+  height: 78px;
   border-radius: 5px;
   background-color: blue;
-  border: solid rgb(47, 46, 46) 7px;
+  border: solid rgb(47, 46, 46) 5.5px;
   color: yellow;
-  font-size: 80px;
+  font-size: 65px;
   font-weight: bold;
   margin: 5px;
 }
