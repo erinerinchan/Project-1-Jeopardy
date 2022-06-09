@@ -13,6 +13,7 @@ body {
   flex-direction: column;
 }
 
+/* Loading section */
 #loading {
   text-align: center;
   font-size: 30px;
@@ -20,12 +21,23 @@ body {
   -webkit-text-stroke: 1px black;
 }
 
+/* Images on the loading page */
+.logo-loading, .host-loading {
+  display: block;
+  margin-top: 7px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+/* Main page */
 #main {
   opacity: 0;
   display: none;
   transition: opacity 0.3s ease-in;
 }
 
+/* Images on the main page */
 .logo, .host {
   display: block;
   margin-top: 7px;
@@ -34,6 +46,7 @@ body {
   margin-bottom: 10px;
 }
 
+/* Score */
 #score {
   text-align: center;
   text-shadow: 1px 1px 3px purple;
@@ -44,10 +57,34 @@ body {
   -webkit-text-stroke: 1px black;
 }
 
+/* Container for the question cards */
 #game {
   display: flex;
 }
 
+/* Question cards */
+.card {
+  display: center;
+  width: 155px;
+  height: 78px;
+  border-radius: 5px;
+  background-color: blue;
+  border: solid rgb(47, 46, 46) 5.5px;
+  color: yellow;
+  font-size: 65px;
+  letter-spacing: -1px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+/* Question cards' columns */
+.genre-column {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Backdrop of the question cards' modals */
 #modal {
   position: fixed;
   z-index: 1;
@@ -59,6 +96,7 @@ body {
   background-color: rgba(0, 0, 0, 0.628);
 }
 
+/* Content of the question cards' modals */
 .modal-content {
   background-color: blue;
   display: block;
@@ -75,37 +113,7 @@ body {
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
 }
 
-.close-modal {
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 60px;
-  justify-content: center;
-  width: 2.5em;
-  background-color: white;
-  font-weight: bold;
-}
-
-.genre-column {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.card {
-  display: center;
-  width: 155px;
-  height: 78px;
-  border-radius: 5px;
-  background-color: blue;
-  border: solid rgb(47, 46, 46) 5.5px;
-  color: yellow;
-  font-size: 65px;
-  letter-spacing: -1px;
-  margin: 5px;
-  cursor: pointer;
-}
-
+/* Button for answer options on the modal */
 button {
   display: flex;
   font-family: 'Asap Condensed', sans-serif;
@@ -119,19 +127,23 @@ button {
   cursor: pointer;
 }
 
+/* Button for closing the modal */
+.close-modal {
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
+  justify-content: center;
+  width: 2.5em;
+  background-color: white;
+  font-weight: bold;
+}
+
+/* Color display when an answer option is chosen */
 .correct-answer {
   background-color: green;
 }
 
 .wrong-answer {
   background-color: red;
-}
-
-footer {
-  font-family: 'Asap Condensed', sans-serif;
-  text-align: center;
-  color: white;
-  font-size: 15px;
-  letter-spacing: 1px;
-  margin-top: 0.01px;
 }

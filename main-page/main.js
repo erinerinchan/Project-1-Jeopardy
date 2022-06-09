@@ -1,7 +1,10 @@
 //Loading section
+
+//DOM elements
 const loading = document.getElementById("loading");
 const main = document.getElementById("main");
 
+//Setting time for the main page to fade in
 function fadeIn() {
   setTimeout(() => {
     loading.style.opacity = 0;
@@ -14,7 +17,22 @@ function fadeIn() {
 
 fadeIn();
 
-// Main page
+
+//Main page
+
+//DOM elements
+const game = document.getElementById("game");
+const scoreDisplay = document.getElementById("score-value");
+const modal = document.getElementById("modal");
+const modalContent = document.querySelector(".modal-content");
+
+//Global variables
+let card;
+let qa = {};
+let pickedGenres = [];
+let score = 0;
+
+//The game's categories
 const GENRES = [
   {
     displayName: "Common Sense",
@@ -137,18 +155,22 @@ const GENRES = [
     id: 32,
   },
 ];
+
+//The game's categories generated in a random order
+function pickGenres() {
+  const genrePool = [...GENRES];
+
+  for (let i = 0; i < 6; i++) {
+    const index = Math.floor(Math.random() * genrePool.length);
+    pickedGenres.push(genrePool[index]);
+    genrePool.splice(index, 1);
+  }
+}
+
+//Difficulty of the game
 const LEVELS = ["easy", "medium", "hard"];
-const game = document.getElementById("game");
-const scoreDisplay = document.getElementById("score-value");
-const modal = document.getElementById("modal");
-//Testing
-const modalContent = document.querySelector('.modal-content');
 
-let card;
-let qa = {};
-let pickedGenres = [];
-let score = 0;
-
+//Answer options on question cards generated in a random order
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -158,83 +180,7 @@ function shuffle(array) {
   return array;
 }
 
-function handleFlipCard() {
-  if (!this.className.includes("completed") && !card) {
-    card = this;
-    const category = this.getAttribute("data-category");
-    const level = this.innerHTML;
-    const data = qa[category][level];
-    const answers = shuffle([data.correct_answer, ...data.incorrect_answers]);
-
-    const textDisplay = document.createElement("div");
-    textDisplay.innerHTML = data.question;
-
-    const buttonA = document.createElement("button");
-    const buttonB = document.createElement("button");
-    const buttonC = document.createElement("button");
-    const buttonD = document.createElement("button");
-
-    buttonA.className = "button-mc";
-    buttonB.className = "button-mc";
-    buttonC.className = "button-mc";
-    buttonD.className = "button-mc";
-
-    buttonA.innerHTML = answers[0];
-    buttonB.innerHTML = answers[1];
-    buttonC.innerHTML = answers[2];
-    buttonD.innerHTML = answers[3];
-
-    buttonA.addEventListener("click", getResult);
-    buttonB.addEventListener("click", getResult);
-    buttonC.addEventListener("click", getResult);
-    buttonD.addEventListener("click", getResult);
-
-    // Close Modal Button
-    const closeModal = document.createElement("button");
-    closeModal.className = 'close-modal';
-
-    closeModal.innerHTML = "Exit";
-    closeModal.addEventListener("click", () => {
-      modal.style.display = "none";
-      modalContent.style.display = "none";
-      card = null;
-    });
-    document.body.appendChild(closeModal);
-
-    // Setting Model Content
-    modal.removeAttribute("style");
-    modalContent.innerHTML = "";
-    modalContent.append(textDisplay, buttonA, buttonB, buttonC, buttonD, closeModal);
-    modalContent.removeAttribute('style');
-  }
-}
-
-// Get result
-function getResult() {
-  const buttons = document.querySelectorAll(".button-mc");
-  const cardValue = card.getAttribute("data-value");
-  const correctAnswer = card.getAttribute("data-answer");
-
-  if (correctAnswer === this.innerHTML) {
-    score = score + parseInt(cardValue);
-    scoreDisplay.innerHTML = score;
-    card.classList.add("correct-answer");
-  } else {
-    this.classList.add("wrong-answer");
-    card.classList.add("wrong-answer");
-  }
-
-  card.classList.add("completed");
-  buttons.forEach((btn) => {
-    btn.disabled = true;
-
-    if (btn.innerHTML === correctAnswer) {
-      btn.classList.add("correct-answer");
-    }
-  });
-}
-
-//Generate Cards
+//Generate question cards
 function generateCards() {
   pickedGenres.forEach((genre) => {
     const column = document.createElement("div");
@@ -253,7 +199,6 @@ function generateCards() {
       newCard.setAttribute("data-value", level);
       newCard.setAttribute("data-answer", qa[category][level].correct_answer);
 
-      // Disable card after it has been played
       newCard.addEventListener("click", handleFlipCard);
 
       column.append(newCard);
@@ -261,6 +206,100 @@ function generateCards() {
   });
 }
 
+//Events when clicking on the question card
+function handleFlipCard() {
+  if (!this.className.includes("completed") && !card) {
+    //Assign data to the question card
+    card = this;
+    const category = this.getAttribute("data-category");
+    const level = this.innerHTML;
+    const data = qa[category][level];
+    const answers = shuffle([data.correct_answer, ...data.incorrect_answers]);
+
+    //Text display on the questions
+    const textDisplay = document.createElement("div");
+    textDisplay.innerHTML = data.question;
+
+    //Buttons for 4 answer options
+    const buttonA = document.createElement("button");
+    const buttonB = document.createElement("button");
+    const buttonC = document.createElement("button");
+    const buttonD = document.createElement("button");
+
+    //Setting class names for the buttons
+    buttonA.className = "button-mc";
+    buttonB.className = "button-mc";
+    buttonC.className = "button-mc";
+    buttonD.className = "button-mc";
+
+    //Text display on the buttons
+    buttonA.innerHTML = answers[0];
+    buttonB.innerHTML = answers[1];
+    buttonC.innerHTML = answers[2];
+    buttonD.innerHTML = answers[3];
+
+    //Apply clicks to the buttons
+    buttonA.addEventListener("click", getResult);
+    buttonB.addEventListener("click", getResult);
+    buttonC.addEventListener("click", getResult);
+    buttonD.addEventListener("click", getResult);
+
+    //Button for closing the question card's modal
+    const closeModal = document.createElement("button");
+    closeModal.className = "close-modal";
+    closeModal.innerHTML = "Exit";
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+      modalContent.style.display = "none";
+      card = null;
+    });
+    document.body.appendChild(closeModal);
+
+    //Setting the modal's content
+    modal.removeAttribute("style");
+    modalContent.innerHTML = "";
+    modalContent.append(
+      textDisplay,
+      buttonA,
+      buttonB,
+      buttonC,
+      buttonD,
+      closeModal
+    );
+    modalContent.removeAttribute("style");
+  }
+}
+
+//Get result
+function getResult() {
+  //DOM elements
+  const buttons = document.querySelectorAll(".button-mc");
+  const cardValue = card.getAttribute("data-value");
+  const correctAnswer = card.getAttribute("data-answer");
+
+  //Display on score and card when user chooses the right or wrong answer
+  if (correctAnswer === this.innerHTML) {
+    score = score + parseInt(cardValue);
+    scoreDisplay.innerHTML = score;
+    card.classList.add("correct-answer");
+  } else {
+    this.classList.add("wrong-answer");
+    card.classList.add("wrong-answer");
+  }
+
+  //Avoid the question card's re-clicking once it's been played
+  card.classList.add("completed");
+  buttons.forEach((btn) => {
+    btn.disabled = true;
+
+    //Display on button when user chooses the correct answer
+    if (btn.innerHTML === correctAnswer) {
+      btn.classList.add("correct-answer");
+    }
+  });
+}
+
+//Fetch questions for the question cards
 function getQuestions() {
   const requests = [];
 
@@ -301,16 +340,7 @@ function getQuestions() {
   });
 }
 
-function pickGenres() {
-  const genrePool = [...GENRES];
-
-  for (let i = 0; i < 6; i++) {
-    const index = Math.floor(Math.random() * genrePool.length);
-    pickedGenres.push(genrePool[index]);
-    genrePool.splice(index, 1);
-  }
-}
-
+//Call functions
 function init() {
   pickGenres();
   getQuestions();
