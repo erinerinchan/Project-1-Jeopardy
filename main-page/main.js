@@ -141,6 +141,8 @@ const LEVELS = ["easy", "medium", "hard"];
 const game = document.getElementById("game");
 const scoreDisplay = document.getElementById("score-value");
 const modal = document.getElementById("modal");
+//Testing
+const modalContent = document.querySelector('.modal-content');
 
 let card;
 let qa = {};
@@ -182,24 +184,26 @@ function handleFlipCard() {
     buttonC.innerHTML = answers[2];
     buttonD.innerHTML = answers[3];
 
-    buttonA.addEventListener("click", getResult, { once: true });
-    buttonB.addEventListener("click", getResult, { once: true });
-    buttonC.addEventListener("click", getResult, { once: true });
-    buttonD.addEventListener("click", getResult, { once: true });
+    buttonA.addEventListener("click", getResult);
+    buttonB.addEventListener("click", getResult);
+    buttonC.addEventListener("click", getResult);
+    buttonD.addEventListener("click", getResult);
 
     // Close Modal Button
     const closeModal = document.createElement("button");
     closeModal.innerHTML = "Exit";
     closeModal.addEventListener("click", () => {
       modal.style.display = "none";
+      modalContent.style.display = "none";
       card = null;
     });
     document.body.appendChild(closeModal);
 
     // Setting Model Content
-    modal.innerHTML = "";
-    modal.append(textDisplay, buttonA, buttonB, buttonC, buttonD, closeModal);
     modal.removeAttribute("style");
+    modalContent.innerHTML = "";
+    modalContent.append(textDisplay, buttonA, buttonB, buttonC, buttonD, closeModal);
+    modalContent.removeAttribute('style');
   }
 }
 

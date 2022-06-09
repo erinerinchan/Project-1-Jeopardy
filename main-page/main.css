@@ -49,18 +49,26 @@ body {
 }
 
 #modal {
-  /* display: none; */
   position: fixed;
   z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.628);
+}
+
+.modal-content {
+  background-color: rgb(16, 65, 226);
+  display: block;
+  margin: 15% auto;
   height: 450px;
   width: 600px;
-  overflow: auto;
-  background-color: rgb(16, 65, 226);
-  color: white;
   font-size: 40px;
   text-align: center;
+  color: white;
   justify-content: center;
-  margin: 20% auto;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
