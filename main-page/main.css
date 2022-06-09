@@ -48,12 +48,23 @@ body {
   display: flex;
 }
 
-/* #modal {
+#modal {
+  /* display: none; */
   position: fixed;
-  width: 400px;
-  height: 400px;
-  background-color: red;
-} */
+  z-index: 1;
+  height: 450px;
+  width: 600px;
+  overflow: auto;
+  background-color: rgb(16, 65, 226);
+  color: white;
+  font-size: 40px;
+  text-align: center;
+  justify-content: center;
+  margin: 20% auto;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+}
 
 .genre-column {
   display: flex;
@@ -70,6 +81,27 @@ body {
   border: solid rgb(47, 46, 46) 5.5px;
   color: yellow;
   font-size: 65px;
-  font-weight: bold;
+  letter-spacing: -1px;
   margin: 5px;
+  cursor: pointer;
+}
+
+button {
+  display: flex;
+  font-family: 'Asap Condensed', sans-serif;
+  font-size: 30px;
+  margin-top: 18px;
+  margin-bottom: 15px;
+  background-color: rgb(73, 73, 231);
+  border-radius: 9px;
+  border: solid blue 3px;
+  cursor: pointer;
+}
+
+.correct-answer {
+  background-color: green;
+}
+
+.wrong-answer {
+  background-color: red;
 }
