@@ -139,7 +139,7 @@ const GENRES = [
 ];
 const LEVELS = ["easy", "medium", "hard"];
 const game = document.getElementById("game");
-const scoreDisplay = document.getElementById("score");
+const scoreDisplay = document.getElementById("score-value");
 const modal = document.getElementById("modal");
 
 let card;
