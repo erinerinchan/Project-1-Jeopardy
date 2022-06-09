@@ -191,6 +191,8 @@ function handleFlipCard() {
 
     // Close Modal Button
     const closeModal = document.createElement("button");
+    closeModal.className = 'close-modal';
+
     closeModal.innerHTML = "Exit";
     closeModal.addEventListener("click", () => {
       modal.style.display = "none";

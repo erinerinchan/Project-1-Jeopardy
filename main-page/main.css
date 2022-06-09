@@ -60,18 +60,30 @@ body {
 }
 
 .modal-content {
-  background-color: rgb(16, 65, 226);
+  background-color: blue;
   display: block;
   margin: 15% auto;
-  height: 450px;
+  height: 470px;
   width: 600px;
   font-size: 40px;
   text-align: center;
+  letter-spacing: -1px;
   color: white;
   justify-content: center;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+}
+
+.close-modal {
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
+  justify-content: center;
+  width: 2.5em;
+  background-color: white;
+  font-weight: bold;
 }
 
 .genre-column {
@@ -98,6 +110,7 @@ button {
   display: flex;
   font-family: 'Asap Condensed', sans-serif;
   font-size: 30px;
+  font-weight: normal;
   margin-top: 18px;
   margin-bottom: 15px;
   background-color: rgb(73, 73, 231);
@@ -112,4 +125,13 @@ button {
 
 .wrong-answer {
   background-color: red;
+}
+
+footer {
+  font-family: 'Asap Condensed', sans-serif;
+  text-align: center;
+  color: white;
+  font-size: 15px;
+  letter-spacing: 1px;
+  margin-top: 0.01px;
 }
