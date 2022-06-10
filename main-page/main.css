@@ -147,3 +147,80 @@ button {
 .wrong-answer {
   background-color: red;
 }
+
+/* Backdrop of the modals - when completing all cards*/
+#modal-complete {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.628);
+}
+
+/* Content of the question cards' modals - when completing all cards*/
+.modal-complete-content {
+  background: linear-gradient(#dc14dc, #eb5aba, #f7e2de, #f17acd, #d53fa1, #992592, #6e2090);
+  display: block;
+  margin: 15% auto;
+  height: 470px;
+  width: 600px;
+  font-size: 55px;
+  text-align: center;
+  letter-spacing: -1px;
+  color: white;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+  -webkit-text-stroke: 1px black;
+}
+
+/* Backdrop of the modals - when time is up */
+#modal-time {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.628);
+}
+
+/* Content of the question cards' - when time is up */
+.modal-time-content {
+  background: linear-gradient(#dc14dc, #eb5aba, #f7e2de, #f17acd, #d53fa1, #992592, #6e2090);
+  display: block;
+  margin: 15% auto;
+  height: 470px;
+  width: 600px;
+  font-size: 55px;
+  text-align: center;
+  letter-spacing: -1px;
+  color: white;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+  -webkit-text-stroke: 1px black;
+}
+
+/* 'Play-again' button */
+.play-again {
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
+  justify-content: center;
+  width: 6em;
+  height: 2em;
+  background-color: white;
+  font-weight: bolder;
+  color: rgb(235, 14, 150);
+  border: solid rgb(235, 14, 150) 3.5px;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+  cursor: pointer;
+}

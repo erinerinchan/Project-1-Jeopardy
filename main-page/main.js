@@ -17,9 +17,66 @@ function fadeIn() {
 
 fadeIn();
 
-
 //Main page
 
+//Timer
+//DOM elements for the timer
+const timeDisplay = document.getElementById("time-value");
+
+const modalTime = document.getElementById("modal-time");
+const modalTimeContent = document.querySelector(".modal-time-content");
+
+const buttonPlayAgain = document.createElement("button");
+buttonPlayAgain.className = "play-again";
+buttonPlayAgain.innerHTML = "Play again?";
+buttonPlayAgain.addEventListener("click", () => {
+  document.location.href = "main.html";
+});
+
+//Global variables for the timer
+let timeLeft = 600; //600 seconds, aka 10 mins
+let timerInterval;
+
+//Timer starts
+function startGame() {
+  timerInterval = setInterval(function () {
+    timeLeft -= 1;
+
+    const completedCards = document.querySelectorAll(".completed").length;
+    if (timeLeft === 0 && completedCards === 30) {
+      clearInterval(timerInterval);
+      timeDisplay.style.color = "red";
+
+      modalTime.removeAttribute("style");
+      modalTimeContent.innerHTML = `Congrats! You completed all the questions within 10 minutes! And you scored ${scoreDisplay.innerHTML} out of 18,000 points!`;
+
+      modalTimeContent.append(buttonPlayAgain);
+
+      card = null;
+
+    } else if (timeLeft === 0 && completedCards !== 30) {
+      clearInterval(timerInterval);
+      timeDisplay.style.color = "red";
+
+      modalTime.removeAttribute("style");
+      modalTimeContent.innerHTML = `Oops! You failed to complete all the questions within 10 minutes! But you scored ${scoreDisplay.innerHTML} out of 18,000 points!`;
+
+      modalTimeContent.append(buttonPlayAgain);
+
+      card = null;
+    }
+
+    if (timeLeft % 2 === 0) {
+      timeDisplay.style.color = "magenta";
+    } else {
+      timeDisplay.style.color = "white";
+    }
+
+    timeDisplay.innerHTML = Math.ceil(timeLeft / 60);
+  }, 1000);
+}
+
+//Question cards area
 //DOM elements
 const game = document.getElementById("game");
 const scoreDisplay = document.getElementById("score-value");
@@ -250,8 +307,8 @@ function handleFlipCard() {
     closeModal.innerHTML = "Exit";
     closeModal.addEventListener("click", () => {
       modal.style.display = "none";
-      modalContent.style.display = "none";
       card = null;
+      cardsComplete();
     });
     document.body.appendChild(closeModal);
 
@@ -266,7 +323,6 @@ function handleFlipCard() {
       buttonD,
       closeModal
     );
-    modalContent.removeAttribute("style");
   }
 }
 
@@ -331,12 +387,15 @@ function getQuestions() {
 
     console.log(qa);
 
-    // Use the qa variable to generate the cards
+    //Use the qa variable to generate the cards
     generateCards();
 
-    // Change to game screen when all data is downloaded
+    //Change to game screen when all data is downloaded
     document.querySelector("#loading").style.display = "none";
     document.querySelector("#game").style.display = null;
+
+    // Start timer
+    startGame();
   });
 }
 
@@ -347,3 +406,20 @@ function init() {
 }
 
 init();
+
+//Events when all the cards are completed
+
+//DOM elements for the modal
+const modalComplete = document.getElementById("modal-complete");
+const modalCompleteContent = document.querySelector(".modal-complete-content");
+
+function cardsComplete() {
+  const completedCards = document.querySelectorAll(".completed").length;
+  if (completedCards === 30) {
+    modalComplete.removeAttribute("style");
+    modalCompleteContent.innerHTML = `Congrats! You scored ${scoreDisplay.innerHTML} out of 18,000 points in less than 10 minutes!`;
+    modalCompleteContent.append(buttonPlayAgain);
+
+    card = null;
+  }
+}

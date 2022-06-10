@@ -1,43 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jeopardy!</title>
-  <link rel="stylesheet" href="main-page/main.css">
-</head>
-<body>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeopardy!</title>
+  <link rel="stylesheet" href="main-page/main.css" />
+</head>
+
+<body>
   <!-- Loading section -->
   <div id="loading">
-    <img src="image/logo.png" class="logo-loading" alt="logo" height="70" width="350">
-    <img src="image/host.png" class="host-loading" alt="host" height="350" width="117">
+    <img src="image/logo.png" class="logo-loading" alt="logo-loading" height="70" width="350" />
+    <img src="image/host.png" class="host-loading" alt="host-loading" height="350" width="117" />
     <p>Questions are on your way...</p>
   </div>
 
   <!-- Main page-->
   <div id="main">
-
     <!-- Top section -->
     <div id="top-header">
       <header>
-        <img src="image/logo.png" class="logo" alt="logo" height="45"   width="200">
-        <img src="image/host.png" class="host" alt="host" height="200"  width="66">
+        <img src="image/logo.png" class="logo" alt="logo" height="45" width="200" />
+        <img src="image/host.png" class="host" alt="host" height="200" width="66" />
       </header>
-      <p id ="score">SCORE:&nbsp;&nbsp;<span id="score-value">0</span></p>
+      <p id="score">
+        Score:&nbsp;<span id="score-value">0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+          id="timer">Time:&nbsp;&nbsp;<span id="time-value">10</span>&nbsp;mins</span>
+      </p>
     </div>
 
     <!-- Container for the question cards-->
     <div id="game"></div>
-
   </div>
 
-  <!-- Modal -->
-  <div class="modal" id="modal" style="display: none;">
-    <div class="modal-content" style="display: none;"></div>
+  <!-- Modals for the question cards-->
+  <div class="modal" id="modal" style="display: none">
+    <div class="modal-content"></div>
+  </div>
+
+  <!-- Modals for completing all the question cards -->
+  <div class="modal-complete" id="modal-complete" style="display: none">
+    <div class="modal-complete-content"></div>
+  </div>
+
+  <!-- Modals for when the time is up -->
+  <div class="modal-time" id="modal-time" style="display: none">
+    <div class="modal-time-content"></div>
   </div>
 
   <script src="main-page/main.js"></script>
 </body>
+
 </html>
