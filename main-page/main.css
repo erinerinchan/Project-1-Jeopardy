@@ -224,3 +224,14 @@ button {
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
   cursor: pointer;
 }
+
+/* Button for controlling background music*/
+a {
+  text-align: center;
+  text-shadow: 1px 1px 3px purple;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-size: 35px;
+  color: rgb(225, 215, 215);
+  -webkit-text-stroke: 1px black;
+}

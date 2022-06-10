@@ -423,3 +423,9 @@ function cardsComplete() {
     card = null;
   }
 }
+
+//Background music
+function toggleMute() {
+  const myAudio = document.getElementById('audio');
+  myAudio.muted = !myAudio.muted;
+}

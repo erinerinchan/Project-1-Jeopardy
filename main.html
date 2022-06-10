@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jeopardy!</title>
   <link rel="stylesheet" href="main-page/main.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" integrity="sha384-/frq1SRXYH/bSyou/HUp/hib7RVN1TawQYja658FEOodR/FQBKVqT9Ol+Oz3Olq5" crossorigin="anonymous"/>
 </head>
 
 <body>
@@ -50,7 +51,12 @@
     <div class="modal-time-content"></div>
   </div>
 
+  <!-- Background music -->
+  <audio id="audio" controls autoplay loop style="display: none">
+    <source src="music.mp3" type="audio/mp3" />
+  </audio>
+  <a href="javascript:void(0);" onclick="toggleMute()"><i class="fa-solid fa-volume-low"></i></a>
+
   <script src="main-page/main.js"></script>
 </body>
-
 </html>
