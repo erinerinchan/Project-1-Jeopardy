@@ -121,6 +121,7 @@ body {
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+  max-width: 80%;
 }
 
 /* Button for answer options on the modal */
@@ -186,6 +187,7 @@ button {
   border-radius: 15px;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
   -webkit-text-stroke: 1px black;
+  max-width: 80%;
 }
 
 /* Backdrop of the modals - when time is up */
@@ -216,6 +218,7 @@ button {
   border-radius: 15px;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
   -webkit-text-stroke: 1px black;
+  max-width: 80%;
 }
 
 /* Play-again button */
