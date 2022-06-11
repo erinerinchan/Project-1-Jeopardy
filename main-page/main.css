@@ -63,7 +63,8 @@ body {
 
 /* Container for the question cards */
 #game {
-  display: flex ;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* Question cards' columns */
