@@ -1,58 +1,51 @@
 @import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@400;500;700&display=swap');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* General features */
 body {
   font-family: 'Asap Condensed', sans-serif;
-  font-size: 18px;
-  line-height: 1.6;
   background-image: linear-gradient(#dc14dc, #eb5aba, #f7e2de, #f17acd, #d53fa1, #992592, #6e2090);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   min-height: 100vh;
-
 }
 
+/* Greeting page */
 .main {
   position: relative;
-  max-width: 400px;
   width: 90%;
+  max-width: 400px;
   opacity: 0;
   display: none;
   transition: opacity 1s ease-in;
 }
 
+/* Image on the greeting page */
 img {
-  height: 90%;
   display: block;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  height: 90%;
   max-width: 100%;
 }
 
+/* 'Press start' button on the greeting page */
 .btn {
   position: absolute;
   background: linear-gradient(#1d125e, #48268b);
   color: white;
   text-decoration: none;
-  text-align: center;
   border-radius: 7px;
   padding: 10px 10px;
   margin-top: 30px;
-  top: 100%;
   left: 31%;
   font-size: 30px;
   cursor: pointer;
   transition: .3s linear;
 }
 
+/* Hovering on the 'Press start' button */
 .btn:hover {
   transform: rotateY(15deg);
   box-shadow: 0px 15px 15px rgb(42, 2, 69);

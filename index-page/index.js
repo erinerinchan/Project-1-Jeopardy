@@ -1,6 +1,8 @@
+//DOM elements
 const loader = document.querySelector('.loader');
 const main = document.querySelector('.main');
 
+//Function for the greeting page to fade in 
 function init() {
   setTimeout(() => {
     loader.style.opacity = 0;

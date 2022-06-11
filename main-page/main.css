@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@400;500;700&display=swap');
 
-html {
-  box-sizing: border-box;
-}
-
 body {
   background: linear-gradient(#dc14dc, #eb5aba, #f7e2de, #f17acd, #d53fa1, #992592, #6e2090);
   min-height: 100vh;
@@ -25,15 +21,6 @@ body {
   -webkit-text-stroke: 1px black;
 }
 
-/* Images on the loading page */
-.logo-loading, .host-loading {
-  display: block;
-  margin-top: 7px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
-}
-
 /* Main page */
 #main {
   opacity: 0;
@@ -41,7 +28,7 @@ body {
   transition: opacity 0.3s ease-in;
 }
 
-/* Images on the main page */
+/* Images on the loading and main page */
 .logo, .host {
   display: block;
   margin-top: 7px;
@@ -70,7 +57,6 @@ body {
 /* Question cards' columns */
 .genre-column {
   display: block;
-  flex-direction: column;
   text-align: center;
 }
 
@@ -79,12 +65,11 @@ body {
   display: center;
   width: 155px;
   height: 78px;
-  border-radius: 5px;
+  border-radius: 7px;
   background-color: blue;
   border: solid rgb(47, 46, 46) 5.5px;
   color: yellow;
   font-size: 65px;
-  letter-spacing: -1px;
   margin: 5px;
   cursor: pointer;
   transform: translateY(-5px);
@@ -109,38 +94,35 @@ body {
 /* Content of the question cards' modals */
 .modal-content {
   background-color: blue;
+  color: white;
   display: block;
   margin: 15% auto;
   height: 470px;
   width: 600px;
+  max-width: 80%;
   font-size: 40px;
   text-align: center;
   letter-spacing: -1px;
-  color: white;
   justify-content: center;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
-  max-width: 80%;
 }
 
-/* Button for answer options on the modal */
+/* Buttons for answer options on the modal */
 button {
   display: flex;
   font-family: 'Asap Condensed', sans-serif;
   font-size: 30px;
-  font-weight: normal;
   margin-top: 18px;
   margin-bottom: 15px;
   background-color: rgb(73, 73, 231);
   border-radius: 9px;
-  border: solid blue 3px;
   cursor: pointer;
 }
 
 /* Button for closing the modal */
 .close-modal {
-  align-items: center;
   margin-left: auto;
   margin-right: auto;
   margin-top: 60px;
@@ -178,16 +160,14 @@ button {
   margin: 15% auto;
   height: 470px;
   width: 600px;
-  font-size: 55px;
+  max-width: 80%;
+  font-size: 50px;
   text-align: center;
-  letter-spacing: -1px;
   color: white;
-  justify-content: center;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
   -webkit-text-stroke: 1px black;
-  max-width: 80%;
 }
 
 /* Backdrop of the modals - when time is up */
@@ -209,16 +189,14 @@ button {
   margin: 15% auto;
   height: 470px;
   width: 600px;
-  font-size: 55px;
+  max-width: 80%;
+  font-size: 50px;
   text-align: center;
-  letter-spacing: -1px;
   color: white;
-  justify-content: center;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
   -webkit-text-stroke: 1px black;
-  max-width: 80%;
 }
 
 /* Play-again button */
@@ -241,7 +219,6 @@ button {
 /* Button for controlling background music*/
 a {
   text-align: center;
-  text-shadow: 1px 1px 3px purple;
   margin-top: 15px;
   margin-bottom: 20px;
   font-size: 35px;
