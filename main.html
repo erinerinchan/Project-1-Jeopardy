@@ -1,94 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jeopardy!</title>
-    <link rel="stylesheet" href="main-page/main.css" />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"
-      integrity="sha384-/frq1SRXYH/bSyou/HUp/hib7RVN1TawQYja658FEOodR/FQBKVqT9Ol+Oz3Olq5"
-      crossorigin="anonymous"
-    />
-  </head>
 
-  <body>
-    <!-- Loading section -->
-    <div id="loading">
-      <img
-        src="image/logo.png"
-        class="logo-loading"
-        alt="logo-loading"
-        height="70"
-        width="350"
-      />
-      <img
-        src="image/host.png"
-        class="host-loading"
-        alt="host-loading"
-        height="350"
-        width="117"
-      />
-      <p>Questions are on your way...</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeopardy!</title>
+  <link rel="stylesheet" href="main-page/main.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"
+    integrity="sha384-/frq1SRXYH/bSyou/HUp/hib7RVN1TawQYja658FEOodR/FQBKVqT9Ol+Oz3Olq5" crossorigin="anonymous" />
+</head>
+
+<body>
+  <!-- Loading section -->
+  <div id="loading">
+    <img src="image/logo.png" class="logo-loading" alt="logo-loading" height="70" width="350" />
+    <img src="image/host.png" class="host-loading" alt="host-loading" height="350" width="117" />
+    <p>Questions are on your way...</p>
+  </div>
+
+  <!-- Main page-->
+  <div id="main">
+    <!-- Top section -->
+    <div id="top-header">
+      <header>
+        <img src="image/logo.png" class="logo" alt="logo" height="45" width="200" />
+        <img src="image/host.png" class="host" alt="host" height="200" width="66" />
+      </header>
+      <p id="score">
+        Score:&nbsp;<span id="score-value">0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+          id="timer">Time:&nbsp;&nbsp;<span id="time-value">10</span>&nbsp;mins</span>
+      </p>
     </div>
 
-    <!-- Main page-->
-    <div id="main">
-      <!-- Top section -->
-      <div id="top-header">
-        <header>
-          <img
-            src="image/logo.png"
-            class="logo"
-            alt="logo"
-            height="45"
-            width="200"
-          />
-          <img
-            src="image/host.png"
-            class="host"
-            alt="host"
-            height="200"
-            width="66"
-          />
-        </header>
-        <p id="score">
-          Score:&nbsp;<span id="score-value">0</span
-          >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="timer"
-            >Time:&nbsp;&nbsp;<span id="time-value">10</span>&nbsp;mins</span
-          >
-        </p>
-      </div>
+    <!-- Container for the question cards-->
+    <div id="game"></div>
+  </div>
 
-      <!-- Container for the question cards-->
-      <div id="game"></div>
-    </div>
+  <!-- Modals for the question cards-->
+  <div class="modal" id="modal" style="display: none">
+    <div class="modal-content"></div>
+  </div>
 
-    <!-- Modals for the question cards-->
-    <div class="modal" id="modal" style="display: none">
-      <div class="modal-content"></div>
-    </div>
+  <!-- Modals for completing all the question cards -->
+  <div class="modal-complete" id="modal-complete" style="display: none">
+    <div class="modal-complete-content"></div>
+  </div>
 
-    <!-- Modals for completing all the question cards -->
-    <div class="modal-complete" id="modal-complete" style="display: none">
-      <div class="modal-complete-content"></div>
-    </div>
+  <!-- Modals for when the time is up -->
+  <div class="modal-time" id="modal-time" style="display: none">
+    <div class="modal-time-content"></div>
+  </div>
 
-    <!-- Modals for when the time is up -->
-    <div class="modal-time" id="modal-time" style="display: none">
-      <div class="modal-time-content"></div>
-    </div>
+  <!-- Background music -->
+  <audio id="audio" controls autoplay loop style="display: none">
+    <source src="music.mp3" type="audio/mp3" />
+  </audio>
+  <a href="javascript:void(0);" onclick="toggleMute()"><i class="fa-solid fa-volume-low"></i></a>
 
-    <!-- Background music -->
-    <audio id="audio" controls autoplay loop style="display: none">
-      <source src="music.mp3" type="audio/mp3" />
-    </audio>
-    <a href="javascript:void(0);" onclick="toggleMute()"
-      ><i class="fa-solid fa-volume-low"></i
-    ></a>
+  <script src="main-page/main.js"></script>
+</body>
 
-    <script src="main-page/main.js"></script>
-  </body>
 </html>

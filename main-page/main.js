@@ -249,7 +249,9 @@ function generateCards() {
       const category = genre.category;
       const level = 200 * (i + 1);
 
+      //Testing
       const newCard = document.createElement("div");
+
       newCard.innerHTML = level;
       newCard.classList.add("card");
       newCard.setAttribute("data-category", category);
