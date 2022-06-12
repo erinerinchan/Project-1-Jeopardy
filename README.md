@@ -1,17 +1,17 @@
-# Jeopardy!
+# _Jeopardy!_
 
 ## Description
 
 _Jeopardy!_ is a front-end game inspired by the homonymous American quiz game show, which features 30 clues of 6 categories for contestants to respond in the form of a question.
 
-But the project, despite working similarly to the show, offers users questions to answer instead.
+But the game, despite working similarly to the show, offers users questions to answer instead.
 
 ### Resources for creating the game
 
 - HTML
 - CSS
 - VanillaJS
-- [Open Trivia Database] (https://opentdb.com/) (where the game’s questions are fetched from)
+- [Open Trivia Database](https://opentdb.com/) (where the game’s questions are fetched from)
 
 ## Link to the game
 
