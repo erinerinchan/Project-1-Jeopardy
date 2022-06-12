@@ -6,6 +6,8 @@ _Jeopardy!_ is a front-end game inspired by the homonymous American quiz game sh
 
 But the game, despite working similarly to the show, offers users questions to answer instead.
 
+<img width="1436" alt="jeopardy-screenshot" src="https://user-images.githubusercontent.com/35587864/173225639-6329e750-90ac-48e1-8c2d-89080a2d1f8c.png">
+
 ### Resources for creating the game
 
 - HTML
