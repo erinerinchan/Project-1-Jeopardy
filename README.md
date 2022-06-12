@@ -2,7 +2,7 @@
 
 ## Description
 
-_Jeopardy!_ is a front-end game inspired by the homonymous American quiz game show, which features 30 clues of 6 categories for contestants to respond in the form of a question.
+_Jeopardy!_ is a front-end game inspired by the homonymous American quiz game show, which features 30 clues under 6 categories for contestants to respond in the form of a question.
 
 But the game, despite working similarly to the show, offers users questions to answer instead.
 
