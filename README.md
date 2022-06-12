@@ -29,9 +29,9 @@ https://erinerinchan.github.io/Project-1-Jeopardy/
 ### Instructions
 
 1. Clicking on a question card sees a modal with a question and 4 answer buttons pop up.
-2. When the user clicks on the correct answer button, both the button and the card will appear green. He or she then gains the number of points indicated on the card.
-3. If the user clicks on the wrong answer button instead, both the button and the card will appear red. He or she then does not gain the number of points indicated on the card.
-4. A modal showing the user’s score and completion time will appear.
+2. When clicking on the correct answer button, both the button and the card will appear green. The user then gains the number of points indicated on the card.
+3. When clicking on the wrong answer button instead, both the button and the card will appear red. The user subsequently scores 0 points.
+4. Another modal showing the user’s score and completion time will appear towards the game's end.
 
 ## Authors and acknowledgement
 
