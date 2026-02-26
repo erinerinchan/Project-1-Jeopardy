@@ -1,459 +1,326 @@
-//Loading section
-//DOM elements
-
-//DOM element - page loader
+// DOM elements
 const loading = document.getElementById("loading");
-
-//DOM element - main page
 const main = document.getElementById("main");
-
-//Setting time for the main page to fade in
-function fadeIn() {
-  setTimeout(() => {
-    loading.style.opacity = 0;
-    loading.style.display = "none";
-
-    main.style.display = "block";
-    setTimeout(() => (main.style.opacity = 1), 50);
-  }, 4000);
-}
-
-fadeIn();
-
-//Main page
-
-//Timer
-//DOM elements
-
-//DOM element - time display
 const timeDisplay = document.getElementById("time-value");
-
-//DOM element - modal when time is up
 const modalTime = document.getElementById("modal-time");
-
-//DOM element - content of the modal when time is up
 const modalTimeContent = document.querySelector(".modal-time-content");
-
-//DOM element - 'Play again' button
-const buttonPlayAgain = document.createElement("button");
-
-buttonPlayAgain.className = "play-again";
-buttonPlayAgain.innerHTML = "Play again?";
-buttonPlayAgain.addEventListener("click", () => {
-  document.location.href = "main.html";
-});
-
-//Global variables for the timer
-let timeLeft = 600;
-let timerInterval;
-
-//Timer starts
-function startGame() {
-  timerInterval = setInterval(() => {
-    timeLeft -= 1;
-
-    const completedCards = document.querySelectorAll(".completed").length;
-
-    //When time is up and all the question cards are completed
-    if (timeLeft === 0 && completedCards === 30) {
-      clearInterval(timerInterval);
-      timeDisplay.style.color = "red";
-
-      //A modal pops up
-      modalTime.removeAttribute("style");
-      modalTimeContent.innerHTML = `Congrats! You completed all the questions within 10 minutes! And you scored ${scoreDisplay.innerHTML} out of 18,000 points!`;
-
-      modalTimeContent.append(buttonPlayAgain);
-
-      //Question cards can't be clicked on
-      card = null;
-
-      //When time is up and not all question cards are completed
-    } else if (timeLeft === 0 && completedCards !== 30) {
-      clearInterval(timerInterval);
-      timeDisplay.style.color = "red";
-
-      //A modal pops up
-      modalTime.removeAttribute("style");
-      modalTimeContent.innerHTML = `Oops! You failed to complete all the questions within 10 minutes! But you scored ${scoreDisplay.innerHTML} out of 18,000 points!`;
-
-      modalTimeContent.append(buttonPlayAgain);
-
-      //Question cards can't be clicked on
-      card = null;
-    }
-
-    //The time display changes to magenta or white
-    if (timeLeft % 2 === 0) {
-      timeDisplay.style.color = "magenta";
-    } else {
-      timeDisplay.style.color = "white";
-    }
-
-    timeDisplay.innerHTML = Math.ceil(timeLeft / 60);
-  }, 1000);
-}
-
-//Question cards area
-//DOM elements
-
-//DOM elements - container for the question cards
 const game = document.getElementById("game");
-
-//DOM elements - score display
 const scoreDisplay = document.getElementById("score-value");
-
-//DOM elements - modals for the question cards
 const modal = document.getElementById("modal");
 const modalContent = document.querySelector(".modal-content");
+const modalComplete = document.getElementById("modal-complete");
+const modalCompleteContent = document.querySelector(".modal-complete-content");
 
-//Global variables for the question cards
+// 'Play again' button
+const buttonPlayAgain = document.createElement("button");
+buttonPlayAgain.className = "play-again";
+buttonPlayAgain.innerHTML = "Play Again?";
+buttonPlayAgain.addEventListener("click", () => {
+    document.location.reload();
+});
+
+// Global variables
 let card;
 let qa = {};
 let pickedGenres = [];
 let score = 0;
+let timeLeft = 600;
+let timerInterval;
 
-//The game's categories
 const GENRES = [
-  {
-    displayName: "Common Sense",
-    category: "General Knowledge",
-    id: 9,
-  },
-  {
-    displayName: "Books",
-    category: "Entertainment: Books",
-    id: 10,
-  },
-  {
-    displayName: "Film",
-    category: "Entertainment: Film",
-    id: 11,
-  },
-  {
-    displayName: "Music",
-    category: "Entertainment: Music",
-    id: 12,
-  },
-  {
-    displayName: "Musicals & Theatres",
-    category: "Entertainment: Musicals & Theatres",
-    id: 13,
-  },
-  {
-    displayName: "Television",
-    category: "Entertainment: Television",
-    id: 14,
-  },
-  {
-    displayName: "Video Games",
-    category: "Entertainment: Video Games",
-    id: 15,
-  },
-  {
-    displayName: "Board Games",
-    category: "Entertainment: Board Games",
-    id: 16,
-  },
-  {
-    displayName: "Science & Nature",
-    category: "Science & Nature",
-    id: 17,
-  },
-  {
-    displayName: "Computers",
-    category: "Science: Computers",
-    id: 18,
-  },
-  {
-    displayName: "Maths",
-    category: "Science: Mathematics",
-    id: 19,
-  },
-  {
-    displayName: "Mythology",
-    category: "Mythology",
-    id: 20,
-  },
-  {
-    displayName: "Sports",
-    category: "Sports",
-    id: 21,
-  },
-  {
-    displayName: "Geography",
-    category: "Geography",
-    id: 22,
-  },
-  {
-    displayName: "History",
-    category: "History",
-    id: 23,
-  },
-  {
-    displayName: "Politics",
-    category: "Politics",
-    id: 24,
-  },
-  {
-    displayName: "Art",
-    category: "Art",
-    id: 25,
-  },
-  {
-    displayName: "Celebrities",
-    category: "Celebrities",
-    id: 26,
-  },
-  {
-    displayName: "Animals",
-    category: "Animals",
-    id: 27,
-  },
-  {
-    displayName: "Vehicles",
-    category: "Vehicles",
-    id: 28,
-  },
-  {
-    displayName: "Comics",
-    category: "Entertainment: Comics",
-    id: 29,
-  },
-  {
-    displayName: "Gadgets",
-    category: "Science: Gadgets",
-    id: 30,
-  },
-  {
-    displayName: "Anime & Manga",
-    category: "Entertainment: Japanese Anime & Manga",
-    id: 31,
-  },
-  {
-    displayName: "Cartoon & Animations",
-    category: "Entertainment: Cartoon & Animations",
-    id: 32,
-  },
+    { displayName: "General Knowledge", category: "General Knowledge", id: 9 },
+    { displayName: "Books", category: "Entertainment: Books", id: 10 },
+    { displayName: "Film", category: "Entertainment: Film", id: 11 },
+    { displayName: "Music", category: "Entertainment: Music", id: 12 },
+    { displayName: "Television", category: "Entertainment: Television", id: 14 },
+    { displayName: "Video Games", category: "Entertainment: Video Games", id: 15 },
+    { displayName: "Science & Nature", category: "Science & Nature", id: 17 },
+    { displayName: "Computers", category: "Science: Computers", id: 18 },
+    { displayName: "Mathematics", category: "Science: Mathematics", id: 19 },
+    { displayName: "Mythology", category: "Mythology", id: 20 },
+    { displayName: "Sports", category: "Sports", id: 21 },
+    { displayName: "Geography", category: "Geography", id: 22 },
+    { displayName: "History", category: "History", id: 23 },
+    { displayName: "Politics", category: "Politics", id: 24 },
+    { displayName: "Art", category: "Art", id: 25 },
+    { displayName: "Animals", category: "Animals", id: 27 },
+    { displayName: "Vehicles", category: "Vehicles", id: 28 },
+    { displayName: "Comics", category: "Entertainment: Comics", id: 29 },
+    { displayName: "Anime & Manga", category: "Entertainment: Japanese Anime & Manga", id: 31 },
+    { displayName: "Cartoons", category: "Entertainment: Cartoon & Animations", id: 32 },
 ];
 
-//The game's categories generated in a random order
-function pickGenres() {
-  const genrePool = [...GENRES];
-
-  for (let i = 0; i < 6; i++) {
-    const index = Math.floor(Math.random() * genrePool.length);
-    pickedGenres.push(genrePool[index]);
-    genrePool.splice(index, 1);
-  }
+// UTILITY FUNCTIONS
+function decodeHTML(text) {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
 }
 
-//Difficulty of the game
-const LEVELS = ["easy", "medium", "hard"];
-
-//Answer options on question cards generated in a random order
 function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-
-  return array;
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
 }
 
-//Generate question cards
+async function getQuestions() {
+    console.log("🎯 Starting to fetch questions for:", pickedGenres.map(g => g.displayName));
+    
+    try {
+        const promises = pickedGenres.map(async (genre) => {
+            try {
+                let response = await fetch(`https://opentdb.com/api.php?amount=10&category=${genre.id}&type=multiple`);
+                let data = await response.json();
+                
+                if (data.response_code === 0 && data.results?.length > 0) {
+                    return { genre, questions: data.results };
+                }
+                
+                response = await fetch(`https://opentdb.com/api.php?amount=5&category=${genre.id}&type=multiple`);
+                data = await response.json();
+                
+                if (data.response_code === 0 && data.results?.length > 0) {
+                    return { genre, questions: data.results };
+                }
+                
+                console.warn(`⚠️ No questions for ${genre.displayName}`);
+                return { genre, questions: [] };
+                
+            } catch (error) {
+                console.error(`❌ Error for ${genre.displayName}:`, error);
+                return { genre, questions: [] };
+            }
+        });
+        
+        const results = await Promise.all(promises);
+        
+        // ✅ FIXED: Use displayName as consistent key
+        results.forEach(({ genre, questions }) => {
+            const categoryKey = genre.displayName;
+            qa[categoryKey] = {};
+            
+            if (questions.length > 0) {
+                const shuffledQuestions = shuffle([...questions]);
+                const pointValues = [200, 400, 600, 800, 1000];
+                
+                for (let i = 0; i < 5; i++) {
+                    qa[categoryKey][pointValues[i]] = {
+                        question: decodeHTML(shuffledQuestions[i % shuffledQuestions.length].question),
+                        correct_answer: decodeHTML(shuffledQuestions[i % shuffledQuestions.length].correct_answer),
+                        incorrect_answers: shuffledQuestions[i % shuffledQuestions.length].incorrect_answers.map(decodeHTML)
+                    };
+                }
+            } else {
+                const pointValues = [200, 400, 600, 800, 1000];
+                pointValues.forEach(value => {
+                    qa[categoryKey][value] = {
+                        question: `What is a ${genre.displayName.toLowerCase()} fact worth $${value}?`,
+                        correct_answer: `${genre.displayName} Answer`,
+                        incorrect_answers: ["Wrong 1", "Wrong 2", "Wrong 3"]
+                    };
+                });
+            }
+        });
+        
+        console.log("✅ Questions loaded:", Object.keys(qa));
+        generateCards();
+        showGame();
+        
+    } catch (error) {
+        console.error("💥 Failed to load questions:", error);
+        showError();
+    }
+}
+
 function generateCards() {
-  pickedGenres.forEach((genre) => {
-    const column = document.createElement("div");
-    column.classList.add("genre-column");
-    column.innerHTML = genre.displayName;
-    game.append(column);
-
-    for (let i = 0; i < 5; i++) {
-      const category = genre.category;
-      const level = 200 * (i + 1);
-
-      const newCard = document.createElement("div");
-      newCard.innerHTML = level;
-      newCard.classList.add("card");
-      newCard.setAttribute("data-category", category);
-      newCard.setAttribute("data-value", level);
-      newCard.setAttribute("data-answer", qa[category][level].correct_answer);
-      newCard.addEventListener("click", handleFlipCard);
-
-      column.append(newCard);
-    }
-  });
+    console.log("🃏 Generating cards...");
+    game.innerHTML = '';
+    
+    pickedGenres.forEach((genre) => {
+        const categoryKey = genre.displayName;
+        
+        const column = document.createElement("div");
+        column.classList.add("genre-column");
+        
+        const header = document.createElement("span");
+        header.textContent = genre.displayName;
+        column.appendChild(header);
+        
+        const pointValues = [200, 400, 600, 800, 1000];
+        pointValues.forEach((value) => {
+            const newCard = document.createElement("div");
+            newCard.classList.add("card");
+            
+            const questionData = qa[categoryKey][value];
+            newCard.innerHTML = `$${value}`;
+            newCard.setAttribute("data-category", categoryKey);
+            newCard.setAttribute("data-value", value);
+            newCard.setAttribute("data-question", questionData.question);
+            newCard.setAttribute("data-answer", questionData.correct_answer);
+            newCard.setAttribute("data-incorrect", JSON.stringify(questionData.incorrect_answers));
+            newCard.addEventListener("click", handleFlipCard);
+            
+            column.appendChild(newCard);
+        });
+        
+        game.appendChild(column);
+    });
+    
+    console.log("✅ All cards generated:", pickedGenres.length * 5);
 }
 
-//Events when clicking on the question cards
-function handleFlipCard() {
-  if (!this.className.includes("completed") && !card) {
-    //Assign data to the question card
-    card = this;
-    const category = this.getAttribute("data-category");
-    const level = this.innerHTML;
-    const data = qa[category][level];
-    const answers = shuffle([data.correct_answer, ...data.incorrect_answers]);
-
-    //Text display on the questions
-    const textDisplay = document.createElement("div");
-    textDisplay.innerHTML = data.question;
-
-    //Buttons for 4 answer options
-    const buttonA = document.createElement("button");
-    const buttonB = document.createElement("button");
-    const buttonC = document.createElement("button");
-    const buttonD = document.createElement("button");
-
-    //Setting class names for the buttons
-    buttonA.className = "button-mc";
-    buttonB.className = "button-mc";
-    buttonC.className = "button-mc";
-    buttonD.className = "button-mc";
-    //Text display on the buttons
-    buttonA.innerHTML = answers[0];
-    buttonB.innerHTML = answers[1];
-    buttonC.innerHTML = answers[2];
-    buttonD.innerHTML = answers[3];
-
-    //Apply clicks to the buttons
-    buttonA.addEventListener("click", getResult);
-    buttonB.addEventListener("click", getResult);
-    buttonC.addEventListener("click", getResult);
-    buttonD.addEventListener("click", getResult);
-
-    //Button for closing the question card's modal
-    const closeModal = document.createElement("button");
-    closeModal.className = "close-modal";
-    closeModal.innerHTML = "Exit";
-    closeModal.addEventListener("click", () => {
-      modal.style.display = "none";
-      card = null;
-      cardsComplete();
+function handleFlipCard(e) {
+    const clickedCard = e.currentTarget;
+    if (clickedCard.classList.contains("completed") || card) return;
+    
+    card = clickedCard;
+    const question = clickedCard.getAttribute("data-question");
+    const correctAnswer = clickedCard.getAttribute("data-answer");
+    const incorrectAnswers = JSON.parse(clickedCard.getAttribute("data-incorrect"));
+    const answers = shuffle([correctAnswer, ...incorrectAnswers]);
+    
+    const questionDisplay = document.createElement("div");
+    questionDisplay.innerHTML = `<h3>${question}</h3>`;
+    
+    const buttonContainer = document.createElement("div");
+    answers.forEach(answer => {
+        const button = document.createElement("button");
+        button.className = "button-mc";
+        button.innerHTML = answer;
+        button.addEventListener("click", getResult);
+        buttonContainer.appendChild(button);
     });
-    document.body.appendChild(closeModal);
-
-    //Setting the modal's content
-    modal.removeAttribute("style");
+    
     modalContent.innerHTML = "";
-    modalContent.append(
-      textDisplay,
-      buttonA,
-      buttonB,
-      buttonC,
-      buttonD,
-      closeModal
-    );
-  }
+    modalContent.appendChild(questionDisplay);
+    modalContent.appendChild(buttonContainer);
+    modal.style.display = "flex";
 }
 
-//Get result
 function getResult() {
-  //DOM elements
-  const buttons = document.querySelectorAll(".button-mc");
-  const cardValue = card.getAttribute("data-value");
-  const correctAnswer = card.getAttribute("data-answer");
-
-  //Display on score and card when user chooses the right or wrong answer
-  if (correctAnswer === this.innerHTML) {
-    score = score + parseInt(cardValue);
-    scoreDisplay.innerHTML = score;
-    card.classList.add("correct-answer");
-  } else {
-    this.classList.add("wrong-answer");
-    card.classList.add("wrong-answer");
-  }
-
-  //Avoid the question card's re-clicking once it's been played
-  card.classList.add("completed");
-  buttons.forEach((btn) => {
-    btn.disabled = true;
-
-    //Display on button when user chooses the correct answer
-    if (btn.innerHTML === correctAnswer) {
-      btn.classList.add("correct-answer");
+    const buttons = modalContent.querySelectorAll(".button-mc");
+    const cardValue = parseInt(card.getAttribute("data-value"));
+    const correctAnswer = card.getAttribute("data-answer");
+    const selectedAnswer = this.innerHTML;
+    
+    buttons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.innerHTML === correctAnswer) {
+            btn.classList.add("correct-answer");
+        }
+    });
+    
+    if (selectedAnswer === correctAnswer) {
+        score += cardValue;
+        scoreDisplay.innerHTML = score;
+        card.classList.add("correct-answer");
+    } else {
+        this.classList.add("wrong-answer");
+        card.classList.add("wrong-answer");
     }
-  });
+    
+    card.classList.add("completed");
+    card.innerHTML = "—";
+    
+    setTimeout(() => {
+        modal.style.display = "none";
+        card = null;
+        checkIfAllCardsCompleted();
+    }, 2000);
 }
 
-//Fetch questions for the question cards
-function getQuestions() {
-  const requests = [];
+function pickGenres() {
+    const genrePool = [...GENRES];
+    pickedGenres = [];
+    for (let i = 0; i < 6; i++) {
+        const index = Math.floor(Math.random() * genrePool.length);
+        pickedGenres.push(genrePool[index]);
+        genrePool.splice(index, 1);
+    }
+    console.log("🎲 Selected genres:", pickedGenres.map(g => g.displayName));
+}
 
-  pickedGenres.forEach((genre) => {
-    LEVELS.forEach((level) => {
-      const link = `https://opentdb.com/api.php?amount=2&category=${genre.id}&difficulty=${level}&type=multiple`;
-      const req = fetch(link).then((resp) => resp.json());
-      requests.push(req);
-    });
-  });
-
-  Promise.all(requests).then((responses) => {
-    responses.forEach((resp) => {
-      const genre = resp.results[0].category;
-      const difficulty = resp.results[0].difficulty;
-      const levelIndex = LEVELS.indexOf(difficulty);
-      const level = (levelIndex * 2 + 1) * 200;
-
-      if (qa[genre]) {
-        qa[genre][level] = resp.results[0];
-        qa[genre][level + 200] = resp.results[1];
-      } else {
-        qa[genre] = {
-          [level]: resp.results[0],
-          [level + 200]: resp.results[1],
-        };
-      }
-    });
-
-    console.log(qa);
-
-    //Use the qa variable to generate the cards
-    generateCards();
-
-    //Change to game screen when all data is downloaded
-    document.querySelector("#loading").style.display = "none";
-    document.querySelector("#game").style.display = null;
-
-    // Start timer
+function showGame() {
+    loading.style.display = "none";
+    main.style.display = "block";
+    setTimeout(() => main.style.opacity = 1, 50);
     startGame();
-  });
 }
 
-//Call functions
-function init() {
-  pickGenres();
-  getQuestions();
+function showError() {
+    loading.innerHTML = `
+        <div class="loading-content">
+            <h2 style="color: #ffd700;">Connection Error</h2>
+            <p style="color: white; text-align: center; margin-top: 20px;">
+                Sorry, we couldn't load the game questions.<br>
+                Please check your internet connection and try again.
+            </p>
+            <button onclick="location.reload()" class="play-again" style="margin-top: 20px;">
+                Try Again
+            </button>
+        </div>
+    `;
 }
 
-init();
-
-//Events when all the cards are completed
-
-//DOM elements for the modal when all the cards are completed
-const modalComplete = document.getElementById("modal-complete");
-const modalCompleteContent = document.querySelector(".modal-complete-content");
-
-function cardsComplete() {
-  //Number of cards completed
-  const completedCards = document.querySelectorAll(".completed").length;
-
-  //When are the cards are completed
-  if (completedCards === 30) {
-    modalComplete.removeAttribute("style");
-
-    //A modal pops up
-    modalCompleteContent.innerHTML = `Congrats! You scored ${scoreDisplay.innerHTML} out of 18,000 points in less than 10 minutes!`;
-    modalCompleteContent.append(buttonPlayAgain);
-
-    //Question cards can't be clicked on
-    card = null;
-  }
+function startGame() {
+    timerInterval = setInterval(() => {
+        timeLeft -= 1;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timeDisplay.innerHTML = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 30) {
+            timeDisplay.style.color = "#ff6b6b";
+        }
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            showTimeUp();
+        }
+    }, 1000);
 }
 
-//Background music
+function showTimeUp() {
+    modalTimeContent.innerHTML = `
+        <h2 style="color: #ffd700; margin-bottom: 20px;">Time's Up!</h2>
+        <p style="font-size: 1.2rem;">Final Score: $${score}</p>
+        <p style="margin-top: 10px;">Out of a possible $30,000</p>
+    `;
+    modalTimeContent.appendChild(buttonPlayAgain);
+    modalTime.style.display = "flex";
+}
+
+function checkIfAllCardsCompleted() {
+    const totalCards = pickedGenres.length * 5;
+    const completedCards = document.querySelectorAll(".card.completed").length;
+    
+    if (completedCards === totalCards) {
+        clearInterval(timerInterval);
+        modalCompleteContent.innerHTML = `
+            <h2 style="color: #ffd700; margin-bottom: 20px;">Congratulations!</h2>
+            <p style="font-size: 1.2rem;">You completed all questions!</p>
+            <p style="margin-top: 10px;">Final Score: $${score}</p>
+            <p style="margin-top: 10px;">Out of a possible $30,000</p>
+        `;
+        modalCompleteContent.appendChild(buttonPlayAgain);
+        modalComplete.style.display = "flex";
+    }
+}
+
 function toggleMute() {
-  const myAudio = document.getElementById("audio");
-  myAudio.muted = !myAudio.muted;
+    const audio = document.getElementById("audio");
+    audio.muted = !audio.muted;
+    const muteBtn = document.querySelector(".mute-btn");
+    muteBtn.innerHTML = audio.muted ? "🔇" : "🔊";
 }
+
+function init() {
+    pickGenres();
+    getQuestions();
+}
+
+// Start when DOM is ready
+document.addEventListener("DOMContentLoaded", init);
