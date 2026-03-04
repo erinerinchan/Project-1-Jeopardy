@@ -66,69 +66,78 @@ function shuffle(array) {
     return shuffled;
 }
 
+function fetchWithTimeout(url, timeoutMs = 10000) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timeout));
+}
+
 async function getQuestions() {
     console.log("🎯 Starting to fetch questions for:", pickedGenres.map(g => g.displayName));
-    
+
     try {
-        const promises = pickedGenres.map(async (genre) => {
-            try {
-                let response = await fetch(`https://opentdb.com/api.php?amount=10&category=${genre.id}&type=multiple`);
-                let data = await response.json();
-                
-                if (data.response_code === 0 && data.results?.length > 0) {
-                    return { genre, questions: data.results };
-                }
-                
-                response = await fetch(`https://opentdb.com/api.php?amount=5&category=${genre.id}&type=multiple`);
-                data = await response.json();
-                
-                if (data.response_code === 0 && data.results?.length > 0) {
-                    return { genre, questions: data.results };
-                }
-                
-                console.warn(`⚠️ No questions for ${genre.displayName}`);
-                return { genre, questions: [] };
-                
-            } catch (error) {
-                console.error(`❌ Error for ${genre.displayName}:`, error);
-                return { genre, questions: [] };
-            }
+        // Build a map of API category name → genre for matching
+        const categoryToGenre = {};
+        pickedGenres.forEach(genre => {
+            categoryToGenre[genre.category] = genre;
         });
-        
-        const results = await Promise.all(promises);
-        
-        // ✅ FIXED: Use displayName as consistent key
-        results.forEach(({ genre, questions }) => {
+
+        // Single bulk fetch — avoids rate limiting entirely
+        const response = await fetchWithTimeout('https://opentdb.com/api.php?amount=50&type=multiple');
+        const data = await response.json();
+
+        let allQuestions = [];
+        if (data.response_code === 0 && data.results?.length > 0) {
+            allQuestions = data.results;
+        }
+
+        // Group fetched questions by their API category
+        const questionsByCategory = {};
+        allQuestions.forEach(q => {
+            if (!questionsByCategory[q.category]) {
+                questionsByCategory[q.category] = [];
+            }
+            questionsByCategory[q.category].push(q);
+        });
+
+        // Shuffle the full pool for fallback usage
+        const questionPool = shuffle([...allQuestions]);
+        let poolIndex = 0;
+
+        // Assign questions to each picked genre
+        const pointValues = [200, 400, 600, 800, 1000];
+
+        pickedGenres.forEach(genre => {
             const categoryKey = genre.displayName;
             qa[categoryKey] = {};
-            
-            if (questions.length > 0) {
-                const shuffledQuestions = shuffle([...questions]);
-                const pointValues = [200, 400, 600, 800, 1000];
-                
-                for (let i = 0; i < 5; i++) {
-                    qa[categoryKey][pointValues[i]] = {
-                        question: decodeHTML(shuffledQuestions[i % shuffledQuestions.length].question),
-                        correct_answer: decodeHTML(shuffledQuestions[i % shuffledQuestions.length].correct_answer),
-                        incorrect_answers: shuffledQuestions[i % shuffledQuestions.length].incorrect_answers.map(decodeHTML)
-                    };
+
+            // Prefer questions that match this genre's API category
+            const matched = questionsByCategory[genre.category]
+                ? shuffle([...questionsByCategory[genre.category]])
+                : [];
+
+            for (let i = 0; i < 5; i++) {
+                let q;
+                if (i < matched.length) {
+                    q = matched[i];
+                } else {
+                    // Fall back to questions from the general pool
+                    q = questionPool[poolIndex % questionPool.length];
+                    poolIndex++;
                 }
-            } else {
-                const pointValues = [200, 400, 600, 800, 1000];
-                pointValues.forEach(value => {
-                    qa[categoryKey][value] = {
-                        question: `What is a ${genre.displayName.toLowerCase()} fact worth $${value}?`,
-                        correct_answer: `${genre.displayName} Answer`,
-                        incorrect_answers: ["Wrong 1", "Wrong 2", "Wrong 3"]
-                    };
-                });
+
+                qa[categoryKey][pointValues[i]] = {
+                    question: decodeHTML(q.question),
+                    correct_answer: decodeHTML(q.correct_answer),
+                    incorrect_answers: q.incorrect_answers.map(decodeHTML)
+                };
             }
         });
-        
+
         console.log("✅ Questions loaded:", Object.keys(qa));
         generateCards();
         showGame();
-        
+
     } catch (error) {
         console.error("💥 Failed to load questions:", error);
         showError();
@@ -189,12 +198,18 @@ function handleFlipCard(e) {
     answers.forEach(answer => {
         const button = document.createElement("button");
         button.className = "button-mc";
-        button.innerHTML = answer;
+        button.textContent = answer;
         button.addEventListener("click", getResult);
         buttonContainer.appendChild(button);
     });
     
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "close-btn";
+    closeBtn.textContent = "\u00D7";
+    closeBtn.addEventListener("click", closeModal);
+
     modalContent.innerHTML = "";
+    modalContent.appendChild(closeBtn);
     modalContent.appendChild(questionDisplay);
     modalContent.appendChild(buttonContainer);
     modal.style.display = "flex";
@@ -204,11 +219,11 @@ function getResult() {
     const buttons = modalContent.querySelectorAll(".button-mc");
     const cardValue = parseInt(card.getAttribute("data-value"));
     const correctAnswer = card.getAttribute("data-answer");
-    const selectedAnswer = this.innerHTML;
+    const selectedAnswer = this.textContent;
     
     buttons.forEach(btn => {
         btn.disabled = true;
-        if (btn.innerHTML === correctAnswer) {
+        if (btn.textContent === correctAnswer) {
             btn.classList.add("correct-answer");
         }
     });
@@ -230,6 +245,11 @@ function getResult() {
         card = null;
         checkIfAllCardsCompleted();
     }, 2000);
+}
+
+function closeModal() {
+    modal.style.display = "none";
+    card = null;
 }
 
 function pickGenres() {
@@ -313,8 +333,14 @@ function checkIfAllCardsCompleted() {
 function toggleMute() {
     const audio = document.getElementById("audio");
     audio.muted = !audio.muted;
-    const muteBtn = document.querySelector(".mute-btn");
-    muteBtn.innerHTML = audio.muted ? "🔇" : "🔊";
+    const icon = document.getElementById("mute-icon");
+    if (audio.muted) {
+        icon.classList.remove("fa-volume-low");
+        icon.classList.add("fa-volume-xmark");
+    } else {
+        icon.classList.remove("fa-volume-xmark");
+        icon.classList.add("fa-volume-low");
+    }
 }
 
 function init() {
